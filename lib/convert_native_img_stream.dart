@@ -66,7 +66,8 @@ class ConvertNativeImgStream {
             format: img.Format.uint8,
             order: img.ChannelOrder.bgra
         );
-        final imgData = img.encodeJpg(im, quality: quality);
+        final rotated = img.copyRotate(im, angle: rotate);
+        final imgData = img.encodeJpg(rotated, quality: quality);
         return imgData;
       }
     }, [width, height, jpegData, rotationFix]);
