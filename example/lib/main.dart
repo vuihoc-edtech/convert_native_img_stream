@@ -1,17 +1,17 @@
+import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-
-import 'package:flutter/services.dart';
 import 'package:convert_native_img_stream/convert_native_img_stream.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -63,8 +63,7 @@ class _MyAppState extends State<MyApp> {
       );
       _controller?.initialize().then((_) {
         _controller?.startImageStream((image) {
-
-          if(capture) {
+          if (capture) {
             setState(() {
               converting = false;
             });
@@ -72,17 +71,15 @@ class _MyAppState extends State<MyApp> {
             _controller?.pausePreview();
             _convertNativeImgStreamPlugin
                 .convertImgToBytes(
-                  image.planes.first.bytes,
-                  image.width,
-                  image.height,
-                )
+              image.planes.first.bytes,
+              image.width,
+              image.height,
+            )
                 .then((value) {
-                  imageBytes = value;
-                  converting = false;
-                  setState(() {
-
-                  });
-                });
+              imageBytes = value;
+              converting = false;
+              setState(() {});
+            });
           }
         });
         if (!mounted) {
@@ -93,12 +90,11 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   Widget _body() {
     if (_cameras.isEmpty) return Container();
     if (_controller == null) return Container();
     if (_controller?.value.isInitialized == false) return Container();
-    if(converting) {
+    if (converting) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -108,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          if(imageBytes == null)
+          if (imageBytes == null)
             Center(
               child: CameraPreview(
                 _controller!,
@@ -121,19 +117,19 @@ class _MyAppState extends State<MyApp> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const Expanded(flex: 10,
+                  const Expanded(
+                      flex: 10,
                       child: Center(
-                          child: Text(
-                              "Converted image",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)
-                          )
-                      )
-                  ),
-                  Expanded(flex: 90, child: Image.memory(imageBytes!, fit: BoxFit.cover))
+                          child: Text("Converted image",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 22)))),
+                  Expanded(
+                      flex: 90,
+                      child: Image.memory(imageBytes!, fit: BoxFit.cover))
                 ],
               ),
             ),
-          if(imageBytes == null)
+          if (imageBytes == null)
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -141,8 +137,7 @@ class _MyAppState extends State<MyApp> {
                     onPressed: () {
                       capture = true;
                     },
-                    child: const Text("Pause & Convert Frame")
-                )
+                    child: const Text("Pause & Convert Frame"))
               ],
             )
         ],
@@ -154,12 +149,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: _body()
-      ),
+          appBar: AppBar(
+            title: const Text('Plugin example app'),
+          ),
+          body: _body()),
     );
   }
-
 }
