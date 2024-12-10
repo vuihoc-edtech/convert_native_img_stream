@@ -2,19 +2,19 @@ name: convert_native_img_stream
 description: Converter utility for converting ImageFormatGroup.nv21 or ImageFormatGroup.bgra8888 to jpeg file (coming from camera stream)
 version: 0.0.1
 homepage: https://github.com/vuihoc-edtech/convert_native_img_stream
-publish_to: 'none'
+publish_to: "none"
 
 environment:
-  sdk: '>=2.16.0 <4.0.0'
+  sdk: ">=2.17.0 <4.0.0"
   flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  image: # ^4.0.17
+  image:
     git:
       url: https://github.com/vuihoc-edtech/image
-      ref: main
+      ref: task/DUO-3637
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
